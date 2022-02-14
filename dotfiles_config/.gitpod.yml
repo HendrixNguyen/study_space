@@ -1,0 +1,11 @@
+
+
+tasks:
+  - name: Install Dependency
+    init: yarn install
+
+vscode:
+  extension:
+    - christian-kohler.npm-intellisense
+      vscode.typescript-language-features
+      steoates.autoimport
