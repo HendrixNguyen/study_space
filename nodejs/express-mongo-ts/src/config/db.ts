@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 
+  const env = dotenv.config({path: '../.env.dev'});
+
 async function connect() {
-  dotenv.config();
-  await mongoose.connect(process.env.DB_URI)
+  await mongoose.connect(env.DB_URI)
 }
 
 export default connect();
