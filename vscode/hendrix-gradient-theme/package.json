@@ -1,0 +1,21 @@
+{
+    "name": "hendrix-gradient-theme",
+    "displayName": "hendrix-gradient-theme",
+    "description": "",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.66.0"
+    },
+    "categories": [
+        "Themes"
+    ],
+    "contributes": {
+        "themes": [
+            {
+                "label": "Hendrix Nguyen",
+                "uiTheme": "vs-dark",
+                "path": "./themes/Hendrix Nguyen-color-theme.json"
+            }
+        ]
+    }
+}
