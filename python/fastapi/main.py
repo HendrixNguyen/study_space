@@ -4,7 +4,7 @@ import os
 from fastapi import FastAPI
 import uvicorn
 
-from . import User, Product
+from .models.User import User
 
 app = FastAPI()
 
@@ -28,5 +28,5 @@ def read_user():
 
 if __name__ == "__main__":
     # os.system('"uvicorn main:app --reload"')
-    uvicorn.run(app, host="0.0.0.0", port=PORT, reload=True)
+    uvicorn.run(app, host="0.0.0.0", port=int(PORT), reload=True)
     print(f"Service is running on port {PORT}")
