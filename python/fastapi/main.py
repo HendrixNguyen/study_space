@@ -1,12 +1,13 @@
+from http.client import HTTPResponse
 from typing import Union
 import os
-from typing_extensions import Self
 
 from fastapi import FastAPI
+from fastapi.responses import PlainTextResponse
 import uvicorn
 
-from models import UserModel
 from configuration import configuration
+from services.Model import RewardModel, UserModel
 
 
 class server:
@@ -16,11 +17,15 @@ class server:
         self.reload = False
         self.PORT = os.getenv("PORT") or 5000
 
+    @app.get("/ping")
+    def ping():
+        return PlainTextResponse(status_code=200, content="ping is OK!")
+
     @app.on_event(event_type="startup")
     async def startup(self):
         print("Starting up")
         await configuration().dbConfig()
-        configuration().getDb().create_tables([UserModel])
+        configuration().getDb().create_tables([UserModel, RewardModel])
         if os.getenv("STAGE") == "dev":
             self.reload = True
 
