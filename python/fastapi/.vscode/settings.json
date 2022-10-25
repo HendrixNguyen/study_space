@@ -1,0 +1,17 @@
+{
+    "python.analysis.typeCheckingMode": "off",
+    "python.pythonPath": "./fastapi/bin/python3",
+    "editor.semanticTokenColorCustomizations": {
+        "[One Dark Pro]": {
+            "enabled": true,
+            "rules": {
+                "magicFunction:python": "#ee0000",
+                "function.declaration:python": "#990000",
+                "*.decorator:python": "#0000dd",
+                "*.typeHint:python": "#5500aa",
+                "*.typeHintComment:python": "#aaaaaa"
+            }
+        }
+    },
+    "python.formatting.provider": "black"
+}

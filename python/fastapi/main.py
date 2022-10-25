@@ -1,32 +1,42 @@
 from typing import Union
 import os
+from typing_extensions import Self
 
 from fastapi import FastAPI
 import uvicorn
 
-from .models.User import User
-
-app = FastAPI()
-
-PORT = os.environ.get("PORT") or 5000
+from models import UserModel
+from configuration import configuration
 
 
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
+class server:
+    app = FastAPI()
 
+    def __init__(self) -> None:
+        self.reload = False
+        self.PORT = os.getenv("PORT") or 5000
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+    @app.on_event(event_type="startup")
+    async def startup(self):
+        print("Starting up")
+        await configuration().dbConfig()
+        configuration().getDb().create_tables([UserModel])
+        if os.getenv("STAGE") == "dev":
+            self.reload = True
 
+    @app.on_event(event_type="shutdown")
+    def shutdown() -> None:
+        print("Shutting server down")
+        configuration().getDb().close()
 
-@app.get("/user")
-def read_user():
-    return User.getUser()
+    # app.include_router(router)
+
+    def start(self) -> None:
+        uvicorn.run(self.app, host="127.0.0.1", port=int(self.PORT), reload=self.reload)
+        print(f"Service is running on port {self.PORT}")
 
 
 if __name__ == "__main__":
     # os.system('"uvicorn main:app --reload"')
-    uvicorn.run(app, host="0.0.0.0", port=int(PORT), reload=True)
-    print(f"Service is running on port {PORT}")
+    def start():
+        server().start()
