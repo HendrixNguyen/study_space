@@ -52,3 +52,6 @@ if [ -z $(which micro) ]; then
   curl -fsSL https://getmic.ro/ | bash
   sudo mv micro /usr/local/bin
 fi
+
+echo "Done One"
+curl -fsSL https://raw.githubusercontent.com/HendrixNguyen/study_space/main/setup-arch/setup.sh | bash
