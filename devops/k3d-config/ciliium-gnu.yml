@@ -1,0 +1,33 @@
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+
+metadata:
+  name: cilium-notraefik
+
+servers: 1
+agents: 2
+
+ports:
+  - port: 8080:80
+    nodeFilters:
+      - loadbalancer
+  - port: 443:443
+    nodeFilters:
+      - loadbalancer
+
+options:
+  k3d:
+    disableLoadbalancer: false
+  k3s:
+    extraArgs:
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
+      - arg: --disable-network-policy
+        nodeFilters:
+          - server:*
+      - arg: --flannel-backend=none
+        nodeFilters:
+          - server:*
+  kubeconfig:
+      updateDefaultKubeconfig: true

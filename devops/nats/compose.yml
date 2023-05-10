@@ -1,0 +1,80 @@
+version: '3.9'
+services:
+  nats-1:
+    image: nats:2.9
+    command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N1"
+    restart: always
+    networks:
+      - nats
+    volumes:
+      - ./data/jetstream-cluster/nats-1:/data
+
+  nats-2:
+    image: nats:2.9
+    command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N2"
+    restart: always
+    networks:
+      - nats
+    volumes:
+      - ./data/jetstream-cluster/nats-2:/data
+
+  nats-3:
+    image: nats:2.9
+    command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N3"
+    restart: always
+    networks:
+      - nats
+    volumes:
+      - ./data/jetstream-cluster/nats-3:/data
+
+  lb:
+    image: hendrixnguyen/nginx-proxy:1.0.0
+    depends_on:
+      - nats-1
+      - nats-2
+      - nats-3
+    ports:
+      - 16222:80
+    networks:
+      - nats
+    environment:
+      CONF: |
+        user www-data;
+        worker_processes auto;
+        pid /run/nginx.pid;
+        daemon off;
+        events {
+          worker_connections 10240;
+          multi_accept on;
+        }
+        http {
+          resolver 127.0.0.11 valid=10s ipv6=off;
+          upstream nats1 {
+            server nats-1:8222;
+          }
+          upstream nats2 {
+            server nats-2:8222;
+          }
+          upstream nats3 {
+            server nats-3:8222;
+          }
+          server {
+            listen 80;
+            location /ping {
+              return 200 OK;
+            }
+            location /nats-1/ {
+              proxy_pass http://nats1/;
+            }
+            location /nats-2/ {
+              proxy_pass http://nats2/;
+            }
+            location /nats-3/ {
+              proxy_pass http://nats3/;
+            }
+          }
+        }
+
+networks:
+  nats:
+    driver: bridge
