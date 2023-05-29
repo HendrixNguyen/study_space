@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.7'
 services:
   node-0:
     image: docker.io/bitnami/redis-cluster:7.0
@@ -112,6 +112,16 @@ services:
       - 'REDIS_PASSWORD=dev'
       - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
 
+  redis-insight:
+    image: redislabs/redisinsight:1.14.0
+    container_name: redis-insight
+    restart: unless-stopped
+    environment:
+      - RITRUSTEDORIGINS=https://rediscluster.center-home.duckdns.org/,http://rediscluster.center-home.duckdns.org/
+    networks:
+      - net
+      - nginx-manager_nginx
+
 volumes:
   redis-cluster_data-0:
   redis-cluster_data-1:
@@ -125,3 +135,5 @@ volumes:
 
 networks:
   net:
+  nginx-manager_nginx:
+    external: true

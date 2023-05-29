@@ -1,21 +1,17 @@
-version: '3.9'
+version: '3.8'
 
 services:
-  stack-redis:
-    container_name: redis-stack
-    image: redis/redis-stack:latest
-    ports:
-      - 16379:6379
-      - 8001:8001
+  # stack-redis:
+  #   container_name: redis-stack
+  #   image: redis/redis-stack:latest
+  #   ports:
+  #     - 16379:6379
+  #     - 8001:8001
 
-  redis-insight-v1:
-    container_name: redis-insight-v1
-    image: redislabs/redisinsight
-    networks:
-      - rediscluster_net
-    ports:
-      - 18001:8001
+
 
 networks:
-  rediscluster_net:
+  redis-cluster_net:
+    external: true
+  nginx-manager_nginx:
     external: true

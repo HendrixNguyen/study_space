@@ -7,7 +7,7 @@ services:
     networks:
       - nats
     volumes:
-      - ./data/jetstream-cluster/nats-1:/data
+      - nats1:/data
 
   nats-2:
     image: nats:2.9
@@ -16,7 +16,7 @@ services:
     networks:
       - nats
     volumes:
-      - ./data/jetstream-cluster/nats-2:/data
+      - nats2:/data
 
   nats-3:
     image: nats:2.9
@@ -25,18 +25,19 @@ services:
     networks:
       - nats
     volumes:
-      - ./data/jetstream-cluster/nats-3:/data
+      - nats3:/data
 
-  lb:
+  jsc-lb:
     image: hendrixnguyen/nginx-proxy:1.0.0
     depends_on:
       - nats-1
       - nats-2
       - nats-3
-    ports:
-      - 16222:80
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/ping"]
     networks:
       - nats
+      - nginx-manager_nginx
     environment:
       CONF: |
         user www-data;
@@ -49,6 +50,7 @@ services:
         }
         http {
           resolver 127.0.0.11 valid=10s ipv6=off;
+          access_log off;
           upstream nats1 {
             server nats-1:8222;
           }
@@ -78,3 +80,10 @@ services:
 networks:
   nats:
     driver: bridge
+  nginx-manager_nginx:
+    external: true
+
+volumes:
+  nats1:
+  nats2:
+  nats3:
