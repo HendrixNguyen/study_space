@@ -10,6 +10,8 @@ networks:
 services:
   loki:
     image: grafana/loki:2.8.0
+    volumes:
+      - ./config/loki.yaml:/etc/loki/local-config.yaml
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - loki
@@ -58,15 +60,15 @@ services:
     #   - "4318:4318"  # otlp http
     #   - "9411:9411"   # zipkin
 
-  k6-tracing:
-    image: ghcr.io/grafana/xk6-client-tracing:v0.0.2
-    networks:
-      - loki
-    environment:
-      - ENDPOINT=tempo:4317
-    restart: always
-    depends_on:
-      - tempo
+  # k6-tracing:
+  #   image: ghcr.io/grafana/xk6-client-tracing:v0.0.2
+  #   networks:
+  #     - loki
+  #   environment:
+  #     - ENDPOINT=tempo:4317
+  #   restart: always
+  #   depends_on:
+  #     - tempo
 
   grafana-lb:
     image: hendrixnguyen/nginx-proxy:1.0.0
