@@ -1,0 +1,115 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: test
+    pipeline_stages:
+      - cri:
+      - labelallow:
+          - app
+          - env
+          - service
+      - json:
+          expressions:
+            category_name: categoryName
+            level:
+            data:
+            pid:
+      - json:
+          drop_malformed: true
+          source: data
+          expressions:
+            service_name: serviceName
+            status:
+            request:
+            meta:
+      - json:
+          expressions:
+            request_type: type
+          source: request
+      - json:
+          source: meta
+          expressions:
+            trace_id: traceId
+            request_id: requestId
+            duration:
+      - labels:
+          category_name:
+          level:
+          pid:
+          service_name:
+          status:
+          request_type:
+          trace_id:
+          request_id:
+          duration:
+      - output:
+          source: data
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 5s
+        filters:
+          - name: label
+            values: ["logging=backends"]
+    relabel_configs:
+      - action: replace
+        source_labels:
+          - __meta_kubernetes_pod_label_log_ns
+        regex: ^([0-9a-z-]+)$
+        target_label: app
+      - action: drop
+        source_labels:
+          - app
+        regex: ^$
+      - action: replace
+        source_labels:
+          - __meta_kubernetes_pod_label_log_env
+        regex: ^([0-9a-z-.]+)$
+        target_label: env
+      - action: drop
+        source_labels:
+          - env
+        regex: ^$
+      - action: replace
+        source_labels:
+          - __meta_kubernetes_pod_label_log_service
+        regex: ^([0-9a-z-]+)$
+        target_label: service
+      - action: replace
+        source_labels:
+          - __meta_kubernetes_namespace
+          - __meta_kubernetes_pod_name
+          - __meta_kubernetes_pod_uid
+        separator: _
+        target_label: __pod_id
+      - action: replace
+        source_labels:
+          - __pod_id
+          - __meta_docker_container__name
+        separator: /
+        replacement: /var/log/pods/${1}/*.log
+        target_label: __path__
+
+
+  - job_name: flog_scrape
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 5s
+        filters:
+          - name: label
+            values: ["logging=promtail"]
+    relabel_configs:
+      - source_labels: ['__meta_docker_container_name']
+        regex: '/(.*)'
+        target_label: 'container'
+      - source_labels: ['__meta_docker_container_log_stream']
+        target_label: 'logstream'
+      - source_labels: ['__meta_docker_container_label_logging_jobname']
+        target_label: 'job'
