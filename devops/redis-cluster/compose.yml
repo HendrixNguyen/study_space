@@ -4,56 +4,61 @@ services:
     image: docker.io/bitnami/redis-cluster:7.0
     restart: always
     volumes:
+      # - redis-cluster/data-0:/bitnami/redis/data
       - redis-cluster_data-0:/bitnami/redis/data
     networks:
-      - net
+      - local_stack
     environment:
       - 'REDIS_PASSWORD=dev'
-      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
+      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
 
   node-1:
     image: docker.io/bitnami/redis-cluster:7.0
     restart: always
     networks:
-      - net
+      - local_stack
     volumes:
+      # - ./redis-cluster/data-1:/bitnami/redis/data
       - redis-cluster_data-1:/bitnami/redis/data
     environment:
       - 'REDIS_PASSWORD=dev'
-      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
+      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
 
   node-2:
     image: docker.io/bitnami/redis-cluster:7.0
     restart: always
     networks:
-      - net
+      - local_stack
     volumes:
+      # - ./redis-cluster/data-2:/bitnami/redis/data
       - redis-cluster_data-2:/bitnami/redis/data
     environment:
       - 'REDIS_PASSWORD=dev'
-      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
+      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
 
   node-3:
     image: docker.io/bitnami/redis-cluster:7.0
     restart: always
     networks:
-      - net
+      - local_stack
     volumes:
+      # - ./redis-cluster/data-3:/bitnami/redis/data
       - redis-cluster_data-3:/bitnami/redis/data
     environment:
       - 'REDIS_PASSWORD=dev'
-      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
+      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
 
   node-4:
     image: docker.io/bitnami/redis-cluster:7.0
     restart: always
     networks:
-      - net
+      - local_stack
     volumes:
+      # - ./redis-cluster/data-4:/bitnami/redis/data
       - redis-cluster_data-4:/bitnami/redis/data
     environment:
       - 'REDIS_PASSWORD=dev'
-      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
+      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
 
   node-5:
     image: docker.io/bitnami/redis-cluster:7.0
@@ -64,63 +69,64 @@ services:
       - node-2
       - node-3
       - node-4
-      - node-6
-      - node-7
-      - node-8
     networks:
-      - net
+      - local_stack
     volumes:
+      # - ./redis-cluster/data-5:/bitnami/redis/data
       - redis-cluster_data-5:/bitnami/redis/data
     environment:
       - 'REDIS_PASSWORD=dev'
       - 'REDISCLI_AUTH=dev'
-      - 'REDIS_CLUSTER_REPLICAS=2'
-      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
+      - 'REDIS_CLUSTER_REPLICAS=1'
+      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
       - 'REDIS_CLUSTER_CREATOR=yes'
       - 'DEBUG=true'
 
-  node-6:
-    image: docker.io/bitnami/redis-cluster:7.0
-    restart: always
-    networks:
-      - net
-    volumes:
-      - redis-cluster_data-6:/bitnami/redis/data
-    environment:
-      - 'REDIS_PASSWORD=dev'
-      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
+  # node-6:
+  #   image: docker.io/bitnami/redis-cluster:7.0
+  #   restart: always
+  #   networks:
+  #     - net
+  #   volumes:
+  #     - redis-cluster_data-6:/bitnami/redis/data
+  #   environment:
+  #     - 'REDIS_PASSWORD=dev'
+  #     - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
 
-  node-7:
-    image: docker.io/bitnami/redis-cluster:7.0
-    restart: always
-    networks:
-      - net
-    volumes:
-      - redis-cluster_data-7:/bitnami/redis/data
-    environment:
-      - 'REDIS_PASSWORD=dev'
-      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
+  # node-7:
+  #   image: docker.io/bitnami/redis-cluster:7.0
+  #   restart: always
+  #   networks:
+  #     - net
+  #   volumes:
+  #     - redis-cluster_data-7:/bitnami/redis/data
+  #   environment:
+  #     - 'REDIS_PASSWORD=dev'
+  #     - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
 
-  node-8:
-    image: docker.io/bitnami/redis-cluster:7.0
-    restart: always
-    networks:
-      - net
-    volumes:
-      - redis-cluster_data-8:/bitnami/redis/data
-    environment:
-      - 'REDIS_PASSWORD=dev'
-      - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
+  # node-8:
+  #   image: docker.io/bitnami/redis-cluster:7.0
+  #   restart: always
+  #   networks:
+  #     - net
+  #   volumes:
+  #     - redis-cluster_data-8:/bitnami/redis/data
+  #   environment:
+  #     - 'REDIS_PASSWORD=dev'
+  #     - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5 node-6 node-7 node-8'
 
   redis-insight:
     image: redislabs/redisinsight:1.14.0
     container_name: redis-insight
     restart: unless-stopped
     environment:
-      - RITRUSTEDORIGINS=https://rediscluster.center-home.duckdns.org/,http://rediscluster.center-home.duckdns.org/
+      - RITRUSTEDORIGINS=http://insight.center-home.duckdns.org/
+      # PORT: 8001
+      # REDIS_PASSWORD: dev
+      # REDIS_HOSTS: node-0,node-1,node-2,node-3,node-4,node-5
     networks:
-      - net
-      - nginx-manager_nginx
+      - local_stack
+      - nginx-proxy_default
 
 volumes:
   redis-cluster_data-0:
@@ -129,11 +135,12 @@ volumes:
   redis-cluster_data-3:
   redis-cluster_data-4:
   redis-cluster_data-5:
-  redis-cluster_data-6:
-  redis-cluster_data-7:
-  redis-cluster_data-8:
+  # redis-cluster_data-6:
+  # redis-cluster_data-7:
+  # redis-cluster_data-8:
 
 networks:
-  net:
-  nginx-manager_nginx:
+  local_stack:
+    external: true
+  nginx-proxy_default:
     external: true

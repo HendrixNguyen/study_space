@@ -1,17 +1,23 @@
 version: '3.8'
 
 services:
-  # stack-redis:
-  #   container_name: redis-stack
-  #   image: redis/redis-stack:latest
-  #   ports:
-  #     - 16379:6379
-  #     - 8001:8001
+  stack-redis:
+    container_name: redis-stack
+    image: redis/redis-stack:latest
+    restart: unless-stopped
+    volumes:
+      - ./redis:/data
+    networks:
+      - local_stack
+      - nginx-proxy_default
+    ports:
+      - 16379:6379
+      - 8001:8001
 
 
 
 networks:
-  redis-cluster_net:
+  local_stack:
     external: true
-  nginx-manager_nginx:
+  nginx-proxy_default:
     external: true
