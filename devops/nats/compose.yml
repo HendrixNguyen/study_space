@@ -4,8 +4,10 @@ services:
     image: nats:2.9
     # healthcheck:
     #   test: echo $$(wget --server-response http://node1:8222/healthz 2>&1 | grep  '200 OK') | grep '200'  || exit 1
-    command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N1"
+    command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N1 "
     restart: always
+    ports:
+      - 14222:4222
     networks:
       - local_stack
     volumes:
@@ -15,8 +17,10 @@ services:
     image: nats:2.9
     # healthcheck:
     #   test: echo $$(wget --server-response http://node1:8222/healthz 2>&1 | grep  '200 OK') | grep '200'  || exit 1
-    command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N2"
+    command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N2 "
     restart: always
+    ports:
+      - 24222:4222
     networks:
       - local_stack
     volumes:
@@ -26,8 +30,10 @@ services:
     image: nats:2.9
     # healthcheck:
     #   test: echo $$(wget --server-response http://node1:8222/healthz 2>&1 | grep  '200 OK') | grep '200'  || exit 1
-    command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N3"
+    command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N3 "
     restart: always
+    ports:
+      - 34222:4222
     networks:
       - local_stack
     volumes:
@@ -42,9 +48,10 @@ services:
       - nats-3
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/ping"]
+    ports:
+      - 8080:80
     networks:
       - local_stack
-      - nginx-proxy_default
     environment:
       CONF: |
         user www-data;
@@ -86,8 +93,6 @@ services:
 
 networks:
   local_stack:
-    external: true
-  nginx-proxy_default:
     external: true
 
 volumes:
