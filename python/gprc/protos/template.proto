@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+message JsonRequest {
+  string requestMessage = 1;
+  optional bytes refId = 2;
+}
+
+message JsonResonpse {
+  bytes statusCode = 1;
+  statusResult status_result = 2;
+  string responseMessage = 3;
+  int32 duration = 4;
+}
+
+
+enum statusResult {
+  SUCCESS = 0;
+  FAILED = 1;
+}
+
+service serviceName {
+
+}
+
