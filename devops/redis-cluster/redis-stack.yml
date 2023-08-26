@@ -4,20 +4,13 @@ services:
   stack-redis:
     container_name: redis-stack
     image: redis/redis-stack:latest
-    restart: unless-stopped
-    volumes:
-      - ./redis:/data
-    networks:
-      - local_stack
-      - nginx-proxy_default
     ports:
-      - 16379:6379
+      - 6379:6379
       - 8001:8001
-
-
+    networks:
+      - redis_cluster-net
+    restart: always
 
 networks:
-  local_stack:
-    external: true
-  nginx-proxy_default:
+  redis_cluster-net:
     external: true
