@@ -1,14 +1,11 @@
-version: '3.7'
-
-networks:
-  net:
+version: '2'
 
 services:
   node-0:
-    image: docker.io/bitnami/redis-cluster:7.0
+    image: docker.io/bitnami/redis-cluster
     restart: always
     volumes:
-      - redis-cluster_data-0:/bitnami/redis/data
+      - cluster_data-0:/bitnami/redis/data
     networks:
       - net
     ports:
@@ -16,66 +13,61 @@ services:
     environment:
       - 'REDIS_PASSWORD=dev'
       - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
-      - 'DEBUG=true'
 
   node-1:
-    image: docker.io/bitnami/redis-cluster:7.0
+    image: docker.io/bitnami/redis-cluster
     restart: always
     networks:
       - net
     ports:
       - 32806:6379
     volumes:
-      - redis-cluster_data-1:/bitnami/redis/data
+      - cluster_data-1:/bitnami/redis/data
     environment:
       - 'REDIS_PASSWORD=dev'
       - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
-      - 'DEBUG=true'
 
   node-2:
-    image: docker.io/bitnami/redis-cluster:7.0
+    image: docker.io/bitnami/redis-cluster
     restart: always
     ports:
       - 32807:6379
     networks:
       - net
     volumes:
-      - redis-cluster_data-2:/bitnami/redis/data
+      - cluster_data-2:/bitnami/redis/data
     environment:
       - 'REDIS_PASSWORD=dev'
       - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
-      - 'DEBUG=true'
 
   node-3:
-    image: docker.io/bitnami/redis-cluster:7.0
+    image: docker.io/bitnami/redis-cluster
     restart: always
     networks:
       - net
     ports:
       - 32808:6379
     volumes:
-      - redis-cluster_data-3:/bitnami/redis/data
+      - cluster_data-3:/bitnami/redis/data
     environment:
       - 'REDIS_PASSWORD=dev'
       - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
-      - 'DEBUG=true'
 
   node-4:
-    image: docker.io/bitnami/redis-cluster:7.0
+    image: docker.io/bitnami/redis-cluster
     restart: always
     networks:
       - net
     ports:
       - 32809:6379
     volumes:
-      - redis-cluster_data-4:/bitnami/redis/data
+      - cluster_data-4:/bitnami/redis/data
     environment:
       - 'REDIS_PASSWORD=dev'
       - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
-      - 'DEBUG=true'
 
   node-5:
-    image: docker.io/bitnami/redis-cluster:7.0
+    image: docker.io/bitnami/redis-cluster
     restart: always
     depends_on:
       - node-0
@@ -88,14 +80,13 @@ services:
     ports:
       - 32810:6379
     volumes:
-      - redis-cluster_data-5:/bitnami/redis/data
+      - cluster_data-5:/bitnami/redis/data
     environment:
       - 'REDIS_PASSWORD=dev'
       - 'REDISCLI_AUTH=dev'
       - 'REDIS_CLUSTER_REPLICAS=1'
       - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
       - 'REDIS_CLUSTER_CREATOR=yes'
-      - 'DEBUG=true'
 
   redis-insight:
     image: redislabs/redisinsight
@@ -105,21 +96,28 @@ services:
       - 28001:8001
     volumes:
       - redis-cluster_app:/app
+      - redis-insight_db:/db
     environment:
-      - RITRUSTEDORIGINS=https://cluster.huyndg.io.vn/,http://cluster.huyndg.io.vn/
+      - RITRUSTEDORIGINS=https://cluster.huyndg.io.vn,http://cluster.huyndg.io.vn
       - RIPROXYENABLE=true
     networks:
       - net
 
 volumes:
-  redis-cluster_data-0:
-  redis-cluster_data-1:
-  redis-cluster_data-2:
-  redis-cluster_data-3:
-  redis-cluster_data-4:
-  redis-cluster_data-5:
-  redis-cluster_data-6:
-  redis-cluster_data-7:
-  redis-cluster_data-8:
+  cluster_data-0:
+  cluster_data-1:
+  cluster_data-2:
+  cluster_data-3:
+  cluster_data-4:
+  cluster_data-5:
   redis-cluster_app:
+  redis-insight_db:
+
+networks:
+  net:
+    ipam:
+     # driver: default
+      config:
+        - subnet: "172.30.1.0/24"
+        #- subnet: "2001:3984:3989::/64"
 
