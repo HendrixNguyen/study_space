@@ -13,7 +13,7 @@ services:
     network_mode: host
     environment:
       # Mysql/Maria connection parameters:
-      DB_MYSQL_HOST: "db"
+      DB_MYSQL_HOST: "192.168.1.171"
       DB_MYSQL_PORT: 3306
       DB_MYSQL_USER: "npm"
       DB_MYSQL_PASSWORD: "npm"
@@ -29,6 +29,8 @@ services:
   db:
     image: 'jc21/mariadb-aria:latest'
     restart: unless-stopped
+    ports:
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: 'npm'
       MYSQL_DATABASE: 'npm'
