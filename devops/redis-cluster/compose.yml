@@ -7,9 +7,9 @@ services:
     volumes:
       - cluster_data-0:/bitnami/redis/data
     networks:
-      - net
-    ports:
-      - 32805:6379
+      - local_stack
+    # ports:
+    #   - 32805:6379
     environment:
       - 'REDIS_PASSWORD=dev'
       - 'REDIS_NODES=node-0 node-1 node-2 node-3 node-4 node-5'
@@ -18,9 +18,9 @@ services:
     image: docker.io/bitnami/redis-cluster
     restart: always
     networks:
-      - net
-    ports:
-      - 32806:6379
+      - local_stack
+    # ports:
+    #   - 32806:6379
     volumes:
       - cluster_data-1:/bitnami/redis/data
     environment:
@@ -30,10 +30,10 @@ services:
   node-2:
     image: docker.io/bitnami/redis-cluster
     restart: always
-    ports:
-      - 32807:6379
+    # ports:
+    #   - 32807:6379
     networks:
-      - net
+      - local_stack
     volumes:
       - cluster_data-2:/bitnami/redis/data
     environment:
@@ -44,9 +44,9 @@ services:
     image: docker.io/bitnami/redis-cluster
     restart: always
     networks:
-      - net
-    ports:
-      - 32808:6379
+      - local_stack
+    # ports:
+    #   - 32808:6379
     volumes:
       - cluster_data-3:/bitnami/redis/data
     environment:
@@ -57,9 +57,9 @@ services:
     image: docker.io/bitnami/redis-cluster
     restart: always
     networks:
-      - net
-    ports:
-      - 32809:6379
+      - local_stack
+    # ports:
+    #   - 32809:6379
     volumes:
       - cluster_data-4:/bitnami/redis/data
     environment:
@@ -76,9 +76,9 @@ services:
       - node-3
       - node-4
     networks:
-      - net
-    ports:
-      - 32810:6379
+      - local_stack
+    # ports:
+    #   - 32810:6379
     volumes:
       - cluster_data-5:/bitnami/redis/data
     environment:
@@ -89,19 +89,20 @@ services:
       - 'REDIS_CLUSTER_CREATOR=yes'
 
   redis-insight:
-    image: redislabs/redisinsight
+    image: redislabs/redisinsight:v2
+    # image: oblakstudio/redisinsight:latest
     container_name: redis-insight
     restart: unless-stopped
     ports:
-      - 28001:8001
+      - 54322:5540
     volumes:
       - redis-cluster_app:/app
       - redis-insight_db:/db
-    environment:
-      - RITRUSTEDORIGINS=https://cluster.huyndg.io.vn,http://cluster.huyndg.io.vn
-      - RIPROXYENABLE=true
+    # environment:
+    #   - RITRUSTEDORIGINS=https://cluster.huyndg.io.vn,http://cluster.huyndg.io.vn
+    #   - RIPROXYENABLE=true
     networks:
-      - net
+      - local_stack
 
 volumes:
   cluster_data-0:
@@ -114,10 +115,14 @@ volumes:
   redis-insight_db:
 
 networks:
-  net:
-    ipam:
-     # driver: default
-      config:
-        - subnet: "172.30.1.0/24"
-        #- subnet: "2001:3984:3989::/64"
+  local_stack:
+    external: true
+
+# networks:
+#   net:
+#     ipam:
+#      # driver: default
+#       config:
+#         - subnet: "172.30.1.0/24"
+#         #- subnet: "2001:3984:3989::/64"
 

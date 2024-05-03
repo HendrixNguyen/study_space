@@ -3,13 +3,11 @@ version: '3.8'
 services:
   stack-redis:
     container_name: redis-stack
-    # image: redis/redis-stack:latest
+    #image: redis/redis-stack:latest
     image: redis/redis-stack-server
-    environment:
-      - REDIS_ARGS="--requirepass single"
     #ports:
       # - 6379:6379
-      # - 8001:8001
+      #- 54321:8001
     networks:
       - local_stack
     restart: always
