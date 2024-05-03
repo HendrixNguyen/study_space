@@ -1,95 +1,119 @@
 version: '3.9'
+
 services:
   nats-1:
-    image: nats:2.9
+    # image: nats:alpine
+    image: nats
     # healthcheck:
     #   test: echo $$(wget --server-response http://node1:8222/healthz 2>&1 | grep  '200 OK') | grep '200'  || exit 1
     command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N1 "
     restart: always
     ports:
-      - 14222:4222
+      - 14222:8222
     networks:
       - local_stack
     volumes:
       - nats1:/data
 
   nats-2:
-    image: nats:2.9
+    # image: nats:alpine
+    image: nats
     # healthcheck:
     #   test: echo $$(wget --server-response http://node1:8222/healthz 2>&1 | grep  '200 OK') | grep '200'  || exit 1
     command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N2 "
     restart: always
     ports:
-      - 24222:4222
+      - 24222:8222
     networks:
       - local_stack
     volumes:
       - nats2:/data
 
   nats-3:
-    image: nats:2.9
+    # image: nats:alpine
+    image: nats
     # healthcheck:
     #   test: echo $$(wget --server-response http://node1:8222/healthz 2>&1 | grep  '200 OK') | grep '200'  || exit 1
     command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N3 "
     restart: always
     ports:
-      - 34222:4222
+      - 34222:8222
     networks:
       - local_stack
     volumes:
       - nats3:/data
 
-  jsc-lb:
-    image: hendrixnguyen/nginx-proxy:1.0.0
-    restart: unless-stopped
+  nats-ui:
+    image: mdawar/nats-dashboard
     depends_on:
       - nats-1
       - nats-2
       - nats-3
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/ping"]
-    ports:
-      - 8080:80
     networks:
       - local_stack
-    environment:
-      CONF: |
-        user www-data;
-        worker_processes auto;
-        pid /run/nginx.pid;
-        daemon off;
-        events {
-          worker_connections 10240;
-          multi_accept on;
-        }
-        http {
-          resolver 127.0.0.11 valid=10s ipv6=off;
-          access_log off;
-          upstream nats1 {
-            server nats-1:8222;
-          }
-          upstream nats2 {
-            server nats-2:8222;
-          }
-          upstream nats3 {
-            server nats-3:8222;
-          }
-          server {
-            listen 80;
-            location /ping {
-              return 200 OK;
-            }
-            location /nats-1/ {
-              proxy_pass http://nats1/;
-            }
-            location /nats-2/ {
-              proxy_pass http://nats2/;
-            }
-            location /nats-3/ {
-              proxy_pass http://nats3/;
-            }
-          }
-        }
+    volumes:
+      - ./config/nats-dashboard.json:/srv/config.json
+    restart: always
+    ports:
+      - 44222:80
+
+  # jsc-lb:
+  #   image: hendrixnguyen/nginx-proxy:1.0.0
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - nats-1
+  #     - nats-2
+  #     - nats-3
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost/ping"]
+  #   ports:
+  #     - 12341:80
+  #   networks:
+  #     - local_stack
+  #   environment:
+  #     CONF: |
+  #       user www-data;
+  #       worker_processes auto;
+  #       pid /run/nginx.pid;
+  #       daemon off;
+  #       events {
+  #         worker_connections 10240;
+  #         multi_accept on;
+  #       }
+  #       http {
+  #         resolver 127.0.0.11 valid=10s ipv6=off;
+  #         access_log off;
+  #         upstream natsui {
+  #           server nats-ui:80;
+  #         }
+  #         upstream nats1 {
+  #           server nats-1:8222;
+  #         }
+  #         upstream nats2 {
+  #           server nats-2:8222;
+  #         }
+  #         upstream nats3 {
+  #           server nats-3:8222;
+  #         }
+  #         server {
+  #           listen 80;
+  #           location /ping {
+  #             return 200 OK;
+  #           }
+  #           location / {
+  #             proxy_pass http://natsui;
+  #           }
+  #           location /nats-1/ {
+  #             proxy_pass http://nats1/;
+  #           }
+  #           location /nats-2/ {
+  #             proxy_pass http://nats2/;
+  #           }
+  #           location /nats-3/ {
+  #             proxy_pass http://nats3/;
+  #           }
+  #         }
+  #       }
 
 networks:
   local_stack:
