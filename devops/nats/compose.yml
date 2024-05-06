@@ -2,11 +2,12 @@ version: '3.9'
 
 services:
   nats-1:
-    # image: nats:alpine
-    image: nats
+    image: nats:alpine
+    # image: nats
     # healthcheck:
     #   test: echo $$(wget --server-response http://node1:8222/healthz 2>&1 | grep  '200 OK') | grep '200'  || exit 1
-    command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N1 "
+    # command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N1 --max_payload=8MB "
+    command: "nats-server -c /etc/nats/nats-1.conf"
     restart: always
     ports:
       - 14222:8222
@@ -14,13 +15,15 @@ services:
       - local_stack
     volumes:
       - nats1:/data
+      - ./config:/etc/nats
 
   nats-2:
-    # image: nats:alpine
-    image: nats
+    image: nats:alpine
+    # image: nats
     # healthcheck:
     #   test: echo $$(wget --server-response http://node1:8222/healthz 2>&1 | grep  '200 OK') | grep '200'  || exit 1
-    command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N2 "
+    # command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N2"
+    command: "nats-server -c /etc/nats/nats-2.conf"
     restart: always
     ports:
       - 24222:8222
@@ -28,20 +31,23 @@ services:
       - local_stack
     volumes:
       - nats2:/data
+      - ./config:/etc/nats
 
   nats-3:
-    # image: nats:alpine
-    image: nats
+    image: nats:alpine
+    # image: nats
     # healthcheck:
     #   test: echo $$(wget --server-response http://node1:8222/healthz 2>&1 | grep  '200 OK') | grep '200'  || exit 1
-    command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N3 "
+    # command: "--http_port 8222 --cluster_name=local-nats --js --sd=/data --cluster=nats://0.0.0.0:6222 --routes=nats://nats-1:6222,nats-2:6222,nats-3:6222 --server_name=N3"
+    command: "nats-server -c /etc/nats/nats-3.conf"
     restart: always
     ports:
       - 34222:8222
     networks:
       - local_stack
     volumes:
-      - nats3:/data
+      - nats1:/data
+      - ./config:/etc/nats
 
   nats-ui:
     image: mdawar/nats-dashboard
