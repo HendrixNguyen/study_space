@@ -1,18 +1,21 @@
 {
-    
-    "servers": [
-      {
-        "name": "nats-node-1",
-        "url": "https://nats-1.huyndg.io.vn"
-      },
-      {
-        "name": "nats-node-2",
-        "url": "https://nats-2.huyndg.io.vn"
-      },
-      {
-        "name": "nats-node-3",
-        "url": "https://nats-3.huyndg.io.vn"
-      }
-    ],
-    "hideServerInput": true
+  "server": {
+    "name": "Default-1",
+    "url": "https://nats-1.huyndg.io.vn"
+  },
+  "servers": [
+    {
+      "name": "nats-node-1",
+      "url": "https://nats-1.huyndg.io.vn"
+    },
+    {
+      "name": "nats-node-2",
+      "url": "https://nats-2.huyndg.io.vn"
+    },
+    {
+      "name": "nats-node-3",
+      "url": "https://nats-3.huyndg.io.vn"
+    }
+  ],
+  "hideServerInput": true
 }
