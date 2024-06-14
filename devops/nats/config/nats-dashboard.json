@@ -1,8 +1,4 @@
 {
-  "server": {
-    "name": "Default-1",
-    "url": "https://nats-1.huyndg.io.vn"
-  },
   "servers": [
     {
       "name": "nats-node-1",
