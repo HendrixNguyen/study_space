@@ -2,7 +2,7 @@ version: '3.8'
 
 
 networks:
-  local_stack:
+  nginx-proxy_default:
     external: true
 
 # volumes:
@@ -13,10 +13,11 @@ services:
     image: quay.io/minio/minio
     container_name: minio
     networks:
-      - local_stack
+      nginx-proxy_default:
+        ipv4_address: 172.18.0.3
     environment:
       - "MINIO_ROOT_USER=admin"
       - "MINIO_ROOT_PASSWORD=0937172242@Huy"
     command: server /data --console-address ":9090"
     volumes:
-      - ./minio_data:/data
+      - /home/huyndg/nas/minio:/data
