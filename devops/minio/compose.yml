@@ -2,23 +2,21 @@ version: '3.8'
 
 
 networks:
-  net:
-  nginx-manager_nginx:
+  local_stack:
     external: true
 
-volumes:
-  minio:
+# volumes:
+#   minio:
 
 services:
   minio:
     image: quay.io/minio/minio
     container_name: minio
     networks:
-      - net
-      - nginx-manager_nginx
+      - local_stack
     environment:
       - "MINIO_ROOT_USER=admin"
-      - "MINIO_ROOT_PASSWORD=admin1234"
+      - "MINIO_ROOT_PASSWORD=0937172242@Huy"
     command: server /data --console-address ":9090"
     volumes:
-      - minio:/data
+      - ./minio_data:/data
