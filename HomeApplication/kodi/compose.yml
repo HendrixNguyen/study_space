@@ -1,0 +1,16 @@
+---
+version: "2"
+services:
+  kodi-headless:
+    container_name: kodi-headless 
+    volumes:
+      - ./data:/config/.kodi 
+    environment: 
+      - PGID=1000
+      - PUID=1000
+      - TZ="Asia/Ho_Chi_Minh"
+    ports:
+      - 8080:8080 
+      - 9090:9090 
+      - 9777:9777/udp 
+    image: linuxserver/kodi-headless

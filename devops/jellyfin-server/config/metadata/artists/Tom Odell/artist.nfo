@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<artist>
+  <biography />
+  <outline />
+  <lockdata>false</lockdata>
+  <dateadded>2024-07-08 07:23:44</dateadded>
+  <title>Tom Odell</title>
+  <runtime>4</runtime>
+  <genre>Singer &amp; Songwriter</genre>
+  <musicbrainzartistid>fee6a7fb-80d9-4290-a171-e48f1f20e381</musicbrainzartistid>
+  <art>
+    <poster>/config/metadata/artists/Tom Odell/folder.jpg</poster>
+    <fanart>/config/metadata/artists/Tom Odell/backdrop.jpg</fanart>
+  </art>
+</artist>

@@ -1,0 +1,30 @@
+version: '3.5'
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    user: '$uid:$gid'
+    privileged: true
+    #network_mode: 'host'
+    ports:
+      - 8096:8096
+    volumes:
+      - ./config:/config
+      - ./cache:/cache
+      - /dev/dri/:/dev/dri/
+      - type: bind
+        source: /media/nas/jellyfin
+        target: /media
+    restart: 'unless-stopped'
+    # Optional - alternative address used for autodiscovery
+    environment:
+      - JELLYFIN_PublishedServerUrl=https://jellyfin.huyndg.io.vn
+    # Optional - may be necessary for docker healthcheck to pass if running in host network mode
+    #extra_hosts:
+    # - 'host.docker.internal:host-gateway'
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/dma_heap:/dev/dma_heap
+      - /dev/mali0:/dev/mali0
+      - /dev/rga:/dev/rga
+      - /dev/mpp_service:/dev/mpp_service

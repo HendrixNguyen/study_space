@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<artist>
+  <biography />
+  <outline />
+  <lockdata>false</lockdata>
+  <dateadded>2024-07-08 07:23:39</dateadded>
+  <title>Bruno Mars</title>
+  <runtime>10</runtime>
+  <genre>Pop</genre>
+  <musicbrainzartistid>afb680f2-b6eb-4cd7-a70b-a63b25c763d5</musicbrainzartistid>
+  <art>
+    <poster>/config/metadata/artists/Bruno Mars/folder.jpg</poster>
+    <fanart>/config/metadata/artists/Bruno Mars/backdrop.jpg</fanart>
+  </art>
+</artist>

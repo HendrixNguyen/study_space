@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<artist>
+  <biography />
+  <outline />
+  <lockdata>false</lockdata>
+  <dateadded>2024-07-08 07:07:10</dateadded>
+  <title>Bonn</title>
+  <runtime>4</runtime>
+  <genre>Electro</genre>
+  <genre>Techno</genre>
+  <genre>House</genre>
+  <genre>Dance</genre>
+  <musicbrainzartistid>6afd87df-7f72-4598-8922-297a3d00c32d</musicbrainzartistid>
+  <art>
+    <poster>/config/metadata/artists/Bonn/folder.jpg</poster>
+  </art>
+</artist>

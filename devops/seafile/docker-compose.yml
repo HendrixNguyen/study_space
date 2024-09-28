@@ -1,0 +1,38 @@
+services:
+
+  memcached:
+    image: memcached:1.6.18
+    container_name: seafile-memcached
+    entrypoint: memcached -m 256
+    networks:
+      seafile-net:
+
+
+  seafile:
+    image: seafileltd/seafile-mc:11.0-latest
+    container_name: seafile
+    # ports:
+    #   - "8081:80"
+#     - "443:443"  # If https is enabled, cancel the comment.
+    volumes:
+      - /home/huyndg/nas/seafile/seafile-data:/shared   # Required, specifies the path to Seafile data persistent store.
+    environment:
+      - DB_HOST=192.168.1.171
+      - DB_ROOT_PASSWD=npm  # Required, the value should be root's password of MySQL service.
+      - TIME_ZONE=Etc/UTC  # Optional, default is UTC. Should be uncomment and set to your local time zone.
+      - SEAFILE_ADMIN_EMAIL=huyndg.itdev@gmail.com # Specifies Seafile admin user, default is 'me@example.com'.
+      - SEAFILE_ADMIN_PASSWORD=0937172242@Huy     # Specifies Seafile admin password, default is 'asecret'.
+      - SEAFILE_SERVER_LETSENCRYPT=false   # Whether to use https or not.
+      - SEAFILE_SERVER_HOSTNAME=nextcloud.huyndg.io.vn # Specifies your host name if https is enabled.
+      - SEAFILE_
+    depends_on:
+      - memcached
+    networks:
+      seafile-net:
+      nginx-proxy_default:
+        ipv4_address: 172.18.0.5
+
+networks:
+  seafile-net:
+  nginx-proxy_default:
+    external: true

@@ -1,0 +1,46 @@
+[2024-08-10 02:00:00.008 +00:00] [INF] [68] Emby.Server.Implementations.ScheduledTasks.TaskManager: "Extract Chapter Images" Completed after 0 minute(s) and 0 seconds
+[2024-08-10 02:00:01.004 +00:00] [INF] [39] Emby.Server.Implementations.ScheduledTasks.TaskManager: Daily trigger for "Extract Chapter Images" set to fire at 2024-08-11 02:00:00.000 +00:00, which is 23:59:58.9959922 from now.
+[2024-08-10 03:00:00.004 +00:00] [INF] [78] Emby.Server.Implementations.ScheduledTasks.TaskManager: "Generate Trickplay Images" Completed after 0 minute(s) and 0 seconds
+[2024-08-10 03:00:00.998 +00:00] [INF] [58] Emby.Server.Implementations.ScheduledTasks.TaskManager: Daily trigger for "Generate Trickplay Images" set to fire at 2024-08-11 03:00:00.000 +00:00, which is 23:59:59.0016278 from now.
+[2024-08-10 05:54:03.789 +00:00] [INF] [70] Emby.Server.Implementations.ScheduledTasks.TaskManager: "Clean Log Directory" Completed after 0 minute(s) and 0 seconds
+[2024-08-10 05:54:03.849 +00:00] [INF] [87] Emby.Server.Implementations.ScheduledTasks.TaskManager: "Clean Transcode Directory" Completed after 0 minute(s) and 0 seconds
+[2024-08-10 05:54:03.919 +00:00] [INF] [87] Emby.Server.Implementations.ScheduledTasks.TaskManager: "Download missing subtitles" Completed after 0 minute(s) and 0 seconds
+[2024-08-10 05:54:04.018 +00:00] [INF] [87] Emby.Server.Implementations.ScheduledTasks.TaskManager: "TasksRefreshChannels" Completed after 0 minute(s) and 0 seconds
+[2024-08-10 05:54:04.336 +00:00] [INF] [87] Emby.Server.Implementations.ScheduledTasks.TaskManager: "Clean Cache Directory" Completed after 0 minute(s) and 0 seconds
+[2024-08-10 05:54:04.653 +00:00] [INF] [87] Emby.Server.Implementations.ScheduledTasks.Tasks.OptimizeDatabaseTask: Optimizing and vacuuming jellyfin.db...
+[2024-08-10 05:54:04.667 +00:00] [INF] [87] Emby.Server.Implementations.ScheduledTasks.Tasks.OptimizeDatabaseTask: jellyfin.db optimized successfully!
+[2024-08-10 05:54:04.668 +00:00] [INF] [87] Emby.Server.Implementations.ScheduledTasks.TaskManager: "Optimize database" Completed after 0 minute(s) and 0 seconds
+[2024-08-10 05:54:04.852 +00:00] [INF] [87] Emby.Server.Implementations.ScheduledTasks.TaskManager: "Audio Normalization" Completed after 0 minute(s) and 0 seconds
+[2024-08-10 05:54:20.659 +00:00] [INF] [88] Emby.Server.Implementations.ScheduledTasks.TaskManager: "Update Plugins" Completed after 0 minute(s) and 7 seconds
+[2024-08-10 06:41:57.004 +00:00] [INF] [20] Emby.Server.Implementations.IO.LibraryMonitor: Stopping directory watching for path "/media/Movies"
+[2024-08-10 06:41:57.004 +00:00] [INF] [20] Emby.Server.Implementations.IO.LibraryMonitor: Stopping directory watching for path "/media/Music"
+[2024-08-10 06:41:57.005 +00:00] [INF] [20] Emby.Server.Implementations.Library.LibraryManager: Validating media library
+[2024-08-10 06:43:27.264 +00:00] [ERR] [20] Emby.Server.Implementations.Library.LibraryManager: Error in GetFilteredFileSystemEntries isPhysicalRoot: False IsVf: False
+System.IO.IOException: Host is down : '/media/Movies'
+   at System.IO.Enumeration.FileSystemEnumerator`1.Init()
+   at System.IO.DirectoryInfo.InternalEnumerateInfos(String path, String searchPattern, SearchTarget searchTarget, EnumerationOptions options)
+   at MediaBrowser.Controller.Providers.DirectoryService.<>c.<GetFileSystemEntries>b__5_0(String p, IFileSystem fileSystem)
+   at MediaBrowser.Controller.IO.FileData.GetFilteredFileSystemEntries(IDirectoryService directoryService, String path, IFileSystem fileSystem, IServerApplicationHost appHost, ILogger logger, ItemResolveArgs args, Int32 flattenFolderDepth, Boolean resolveShortcuts)
+   at Emby.Server.Implementations.Library.LibraryManager.ResolvePath(FileSystemMetadata fileInfo, IDirectoryService directoryService, IItemResolver[] resolvers, Folder parent, Nullable`1 collectionType, LibraryOptions libraryOptions)
+[2024-08-10 06:43:37.503 +00:00] [ERR] [20] Emby.Server.Implementations.Library.LibraryManager: Error in "PlaylistResolver" resolving "/media/Movies"
+System.IO.IOException: Host is down : '/media/Movies'
+   at System.IO.Enumeration.FileSystemEnumerator`1.Init()
+   at System.IO.Enumeration.FileSystemEnumerableFactory.UserFiles(String directory, String expression, EnumerationOptions options)
+   at Emby.Server.Implementations.Library.Resolvers.PlaylistResolver.Resolve(ItemResolveArgs args)
+   at MediaBrowser.Controller.Resolvers.ItemResolver`1.ResolvePath(ItemResolveArgs args)
+   at Emby.Server.Implementations.Library.LibraryManager.Resolve(ItemResolveArgs args, IItemResolver resolver)
+[2024-08-10 06:43:57.555 +00:00] [INF] [20] Emby.Server.Implementations.IO.LibraryMonitor: Skipping realtime monitor for "/media/Movies" because the path does not exist
+[2024-08-10 06:44:07.582 +00:00] [INF] [20] Emby.Server.Implementations.IO.LibraryMonitor: Skipping realtime monitor for "/media/Music" because the path does not exist
+[2024-08-10 06:44:07.583 +00:00] [ERR] [20] Emby.Server.Implementations.ScheduledTasks.TaskManager: Error executing Scheduled Task
+System.IO.IOException: Host is down : '/media/Movies'
+   at System.IO.Enumeration.FileSystemEnumerator`1.Init()
+   at System.IO.Enumeration.FileSystemEnumerableFactory.UserEntries(String directory, String expression, EnumerationOptions options)
+   at Emby.Server.Implementations.IO.ManagedFileSystem.GetFileSystemEntryPaths(String path, Boolean recursive)
+   at MediaBrowser.Controller.Entities.Folder.ValidateChildrenInternal2(IProgress`1 progress, Boolean recursive, Boolean refreshChildMetadata, Boolean allowRemoveRoot, MetadataRefreshOptions refreshOptions, IDirectoryService directoryService, CancellationToken cancellationToken)
+   at MediaBrowser.Controller.Entities.Folder.ValidateChildrenInternal(IProgress`1 progress, Boolean recursive, Boolean refreshChildMetadata, Boolean allowRemoveRoot, MetadataRefreshOptions refreshOptions, IDirectoryService directoryService, CancellationToken cancellationToken)
+   at MediaBrowser.Controller.Entities.AggregateFolder.ValidateChildrenInternal(IProgress`1 progress, Boolean recursive, Boolean refreshChildMetadata, Boolean allowRemoveRoot, MetadataRefreshOptions refreshOptions, IDirectoryService directoryService, CancellationToken cancellationToken)
+   at Emby.Server.Implementations.Library.LibraryManager.ValidateTopLibraryFolders(CancellationToken cancellationToken, Boolean removeRoot)
+   at Emby.Server.Implementations.Library.LibraryManager.PerformLibraryValidation(IProgress`1 progress, CancellationToken cancellationToken)
+   at Emby.Server.Implementations.Library.LibraryManager.ValidateMediaLibraryInternal(IProgress`1 progress, CancellationToken cancellationToken)
+   at Emby.Server.Implementations.ScheduledTasks.ScheduledTaskWorker.ExecuteInternal(TaskOptions options)
+[2024-08-10 06:44:07.595 +00:00] [INF] [20] Emby.Server.Implementations.ScheduledTasks.TaskManager: "Scan Media Library" Failed after 2 minute(s) and 10 seconds
